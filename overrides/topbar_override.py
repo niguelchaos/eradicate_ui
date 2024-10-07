@@ -39,7 +39,6 @@ class Topbar_Space_Override():
 
             # Before Function
             if context.scene.hide_ui:
-                draw_left_custom_upper_bar(self, context)
                 return None
 
             # Actual Function
@@ -82,14 +81,13 @@ class Topbar_Space_Override():
             def custom_topbar_menu_draw(self, context):
                 pass
 
-            layout = self.layout
+            if context.scene.hide_ui:
+                return None
 
             # Actual Function
             result = draw(self, context)
 
             # After Function
-            layout.separator()
-
             return result
 
         return topbar_menu_draw_wrapper

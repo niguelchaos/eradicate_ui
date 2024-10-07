@@ -114,19 +114,22 @@ class WorkspaceTools_Override():
                 return True
 
             # Before Function
+            if context.scene.hide_ui:
+                return []
 
             # Actual Function
             # Only show custom tools in object mode to prevent affecting others
-            if context.mode != "OBJECT":
-                result = tools_from_context(context, mode)
-                return result
-            try:
-                result = custom_tools_from_context(cls,
-                                                   context=context,
-                                                   mode=mode)
-            except Exception as e:
-                # Fall back to Blender's toolbar if our override fails
-                result = tools_from_context(context, mode)
+            # if context.mode != "OBJECT":
+            #     result = tools_from_context(context, mode)
+            #     return result
+            # try:
+            #     result = custom_tools_from_context(cls,
+            #                                        context=context,
+            #                                        mode=mode)
+            # except Exception as e:
+            #     # Fall back to Blender's toolbar if our override fails
+
+            result = tools_from_context(context, mode)
 
             # After Function
             return result

@@ -14,10 +14,6 @@ class Properties_Space_Override():
     The defined functions are used in register().
     All overrides are decorators, which inject code before and after the actual function.
     """
-    hide_blender_navbar = False
-
-    def __init__(self) -> None:
-        self.hide_blender_navbar = False
 
     def options_draw_decorator(draw):
 
@@ -26,6 +22,7 @@ class Properties_Space_Override():
             # Before Function
             if context.scene.hide_ui:
                 return None
+
             # Actual Function
             result = draw(self, context)
 
@@ -39,17 +36,16 @@ class Properties_Space_Override():
         @functools.wraps(draw)
         def navbar_draw_wrapper(self, context):
             # Before Function
+            if context.scene.hide_ui:
+                return None
+            # layout = self.layout
+            # view = context.space_data
 
-            layout = self.layout
-            view = context.space_data
-
-            layout.scale_x = 1.4
-            layout.scale_y = 1.5
+            # layout.scale_x = 1.4
+            # layout.scale_y = 1.5
 
             # Actual Function
-            result = None
-            if not context.scene.hide_ui:
-                result = draw(self, context)
+            result = draw(self, context)
 
             # After Function
 
@@ -105,9 +101,8 @@ class Properties_Space_Override():
 
                     # Only show icon if low width
                     if layout_scale < HIDE_TEXT_SCALE_LIMIT:
-                        show_text = False
+                        pass
                     else:
-                        show_text = True
                         button_width = BUTTON_SIZE_MULTIPLIER * layout_scale
 
                     if layout_scale > MAX_BUTTON_SCALE_SIZE:
@@ -122,6 +117,8 @@ class Properties_Space_Override():
                 # Places items aligned to the right, close to the header popover.
 
             # ///////////////////////////////////////////////////
+            if context.scene.hide_ui:
+                return None
 
             # Actual Function
             result = draw(self, context)
@@ -129,18 +126,6 @@ class Properties_Space_Override():
             return result
 
         return header_draw_wrapper
-
-    def get_tab_text(self, show_text):
-        """
-        Used to show/hide text in props. 
-        Setting the name in the property itself affects each enum as well. 
-        """
-        if show_text:
-            tab_text = "Tabs"
-        else:
-            tab_text = ""
-
-        return tab_text
 
 
 class Properties_Space_Override_Classes():

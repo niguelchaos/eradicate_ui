@@ -18,12 +18,13 @@ class View3d_Space_Override():
             Wrapper for the header's draw function.
             """
             # Before Function
-
+            if context.scene.hide_ui:
+                return None
+            
             # Actual Function
             result = draw(self, context)
 
             # After Function
-            layout = self.layout
 
             return result
 
@@ -33,9 +34,6 @@ class View3d_Space_Override():
         """
         Decorator for the lower header in View3D.
         """
-
-
-       
         @functools.wraps(draw)
         def tool_header_draw_wrapper(self, context):
             """
@@ -47,11 +45,9 @@ class View3d_Space_Override():
             # Before Function
 
             # LEFT STAGE
-            layout = self.layout
 
             if context.scene.hide_ui:
                 # Left
-                layout.separator_spacer()
                 # Center Stage
                 # Right
                 return None
