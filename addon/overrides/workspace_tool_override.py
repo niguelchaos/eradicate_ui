@@ -154,7 +154,6 @@ def register():
         return
 
     else:
-        # Decorate tabs, inject code
         override_classes.tools_active_class.tools_from_context = WorkspaceTools_Override.tools_from_context_decorator(
             override_classes.tools_active_class.tools_from_context)
 

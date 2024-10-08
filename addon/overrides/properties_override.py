@@ -38,11 +38,6 @@ class Properties_Space_Override():
             # Before Function
             if context.scene.hide_ui:
                 return None
-            # layout = self.layout
-            # view = context.space_data
-
-            # layout.scale_x = 1.4
-            # layout.scale_y = 1.5
 
             # Actual Function
             result = draw(self, context)
@@ -54,9 +49,7 @@ class Properties_Space_Override():
         return navbar_draw_wrapper
 
     def world_buttons_panel_poll(poll):
-        """
-        Overrides Properties' World Panels. Does not draw these panels if custom tabs enabled.
-        """
+
         # Partially written by ChatGPT
         @classmethod
         @functools.wraps(poll)
@@ -74,7 +67,6 @@ class Properties_Space_Override():
             # Before Function
 
             def show_header_tabs(show_tab_text=True):
-                # Shows tabs on the header
                 HIDE_TEXT_SCALE_LIMIT = 0.6
                 BUTTON_SIZE_MULTIPLIER = 1.4
                 MAX_BUTTON_SCALE_SIZE = 1.2
@@ -97,7 +89,6 @@ class Properties_Space_Override():
                 if show_tab_text and layout_scale > 0:
                     row = layout.row()
                     row.scale_x = layout_scale
-                    row.label(icon='BLANK1')
 
                     # Only show icon if low width
                     if layout_scale < HIDE_TEXT_SCALE_LIMIT:
@@ -108,7 +99,6 @@ class Properties_Space_Override():
                     if layout_scale > MAX_BUTTON_SCALE_SIZE:
                         button_width = MAX_BUTTON_SCALE_SIZE
 
-                # Main tabs, aligned to the left
                 tab_row.scale_x = button_width
                 tab_row.scale_y = 1.2
 
@@ -215,13 +205,11 @@ override_classes = Properties_Space_Override_Classes()
 
 
 def register():
-    # Shows tab UI
     if override_classes.check_vars_exist() is False or prerequisites_exist(
     ) is False:
         return None
 
     else:
-        # Decorate tabs, inject code
         override_classes.navbar_class.draw = Properties_Space_Override.navbar_draw_decorator(
             override_classes.navbar_class.draw)
         override_classes.header_class.draw = Properties_Space_Override.header_draw_decorator(
@@ -229,7 +217,6 @@ def register():
         override_classes.options_class.draw = Properties_Space_Override.options_draw_decorator(
             override_classes.options_class.draw)
 
-        # Hides panels if tabs on
         for cls in override_classes.world_prop_panels:
             setattr(
                 cls, "poll",
@@ -247,7 +234,6 @@ def unregister():
         return None
 
     else:
-        # Sets original draw functions in reverse order
         if hasattr(override_classes.options_class.draw, "__wrapped__"):
             override_classes.options_class.draw = inspect.unwrap(
                 override_classes.options_class.draw)
@@ -258,7 +244,6 @@ def unregister():
             override_classes.navbar_class.draw = inspect.unwrap(
                 override_classes.navbar_class.draw)
 
-        # Remove injected code in panels
         for cls in reversed(override_classes.world_prop_panels):
             if hasattr(cls.poll, "__wrapped__"):
                 cls.poll = inspect.unwrap(cls.poll)

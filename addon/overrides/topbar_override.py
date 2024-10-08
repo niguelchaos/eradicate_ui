@@ -6,9 +6,6 @@ import inspect
 
 class Topbar_Space_Override():
 
-    def __init__(self) -> None:
-        pass
-
     def upper_bar_draw_left_decorator(draw_left):
         """
         Decorator that injects code for the top-left (main) header of Blender.

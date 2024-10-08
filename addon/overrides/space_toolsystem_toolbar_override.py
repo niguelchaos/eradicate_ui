@@ -56,14 +56,12 @@ def register():
         return
 
     else:
-        # Decorate tabs, inject code
         override_classes.tools_active_panel.draw = ToolSystemToolbar_Override.draw_decorator(
             override_classes.tools_active_panel.draw)
 
 
 def unregister():
     # Sets original draw functions in reverse order
-
     if hasattr(override_classes.tools_active_panel.draw, "__wrapped__"):
         override_classes.tools_active_panel.draw = inspect.unwrap(
             override_classes.tools_active_panel.draw)
