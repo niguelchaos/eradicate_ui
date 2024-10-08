@@ -10,7 +10,7 @@ class EradicateUIPreferences(AddonPreferences):
 
     default_hide_ui: BoolProperty(
         name="Default Hide UI",
-        default=True,
+        default=False,
     )
 
     def draw(self, context):
