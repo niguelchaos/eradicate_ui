@@ -14,18 +14,15 @@ class View3d_Space_Override():
 
         @functools.wraps(draw)
         def header_draw_wrapper(self, context):
-            """
-            Wrapper for the header's draw function.
-            """
+
             # Before Function
             if context.scene.hide_ui:
                 return None
-            
+
             # Actual Function
             result = draw(self, context)
 
             # After Function
-
             return result
 
         return header_draw_wrapper
@@ -34,13 +31,11 @@ class View3d_Space_Override():
         """
         Decorator for the lower header in View3D.
         """
+
         @functools.wraps(draw)
         def tool_header_draw_wrapper(self, context):
             """
             Wrapper for the tool header's draw().
-
-            Args:
-                context (_type_): _description_
             """
             # Before Function
 
@@ -53,7 +48,7 @@ class View3d_Space_Override():
                 return None
 
             # CENTER STAGE for Blender UI
-  
+
             # Actual Function
             result = draw(self, context)
             return result
@@ -75,7 +70,6 @@ class View3d_Space_Override_Classes():
         if not all(
                 hasattr(self, var)
                 for var in ["tool_header_class", "header_class"]):
-            print("Class missing! WG View3d will be not used.")
             return False
 
         return True
@@ -83,7 +77,6 @@ class View3d_Space_Override_Classes():
     def prerequisites_exist(self):
         if all(cls is None
                for cls in [self.header_class, self.tool_header_class]):
-            print("UI Class missing! WG View3d will be not used.")
             return False
 
         return True

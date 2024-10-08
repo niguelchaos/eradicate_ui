@@ -94,9 +94,6 @@ class Topbar_Space_Override():
 
 
 class Topbar_Space_Override_Classes():
-    """
-    Provides override classes for Blender's Properties area. 
-    """
 
     def __init__(self) -> None:
         # Classes to override
@@ -106,14 +103,12 @@ class Topbar_Space_Override_Classes():
     def check_vars_exist(self):
         if not all(
                 hasattr(self, var) for var in ["upper_bar", "topbar_menus"]):
-            print("Class missing! WG Topbar will be not used.")
             return False
 
         return True
 
     def prerequisites_exist(self):
         if all(cls is None for cls in [self.upper_bar, self.topbar_menus]):
-            print("UI Class missing! WG Topbar will be not used.")
             return False
 
         return True

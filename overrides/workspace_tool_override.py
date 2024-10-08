@@ -17,28 +17,6 @@ class WorkspaceTools_Override():
     def tools_from_context_decorator(tools_from_context):
         """
         tools_from_context comes from bl_ui/space_toolsystem_common/ToolSelectPanelHelper.
-        
-        Tool Sequence Structure
-        =======================
-
-        Sequences of tools as returned by tools_all() and tools_from_context() are comprised of:
-
-        - A `ToolDef` instance (representing a tool that can be activated).
-        - None (a visual separator in the tool list).
-        - A tuple of `ToolDef` or None values
-            (representing a group of tools that can be selected between using a click-drag action).
-            Note that only a single level of nesting is supported (groups cannot contain sub-groups).
-        - A callable which takes a single context argument and returns a tuple of values described above.
-            When the context is None, all potential tools must be returned.
-
-        Args:
-            tools_from_context (_type_): _description_
-
-        Returns:
-            _type_: _description_
-
-        Yields:
-            _type_: list of tool defs.
         """
 
         @classmethod
@@ -47,7 +25,6 @@ class WorkspaceTools_Override():
 
             def custom_tools_from_context(cls, context, mode=None):
                 """
-                Shows a custom list of workspace tools in WG UI.
 
                 Args:
                     context (_type_): _description_
@@ -114,20 +91,8 @@ class WorkspaceTools_Override():
                 return True
 
             # Before Function
-            if context.scene.hide_ui:
-                return []
 
             # Actual Function
-            # Only show custom tools in object mode to prevent affecting others
-            # if context.mode != "OBJECT":
-            #     result = tools_from_context(context, mode)
-            #     return result
-            # try:
-            #     result = custom_tools_from_context(cls,
-            #                                        context=context,
-            #                                        mode=mode)
-            # except Exception as e:
-            #     # Fall back to Blender's toolbar if our override fails
 
             result = tools_from_context(context, mode)
 
@@ -135,6 +100,23 @@ class WorkspaceTools_Override():
             return result
 
         return tools_from_context_wrapper
+
+    def draw_cls_decorator(draw_cls):
+
+        @classmethod
+        @functools.wraps(draw_cls)
+        def draw_cls_wrapper(cls,
+                             layout,
+                             context,
+                             detect_layout=True,
+                             scale_y=1.75):
+
+            result = draw_cls(layout, context, detect_layout, scale_y)
+
+            # After Function
+            return result
+
+        return draw_cls_wrapper
 
 
 class WorkspaceTools_Override_Classes():
